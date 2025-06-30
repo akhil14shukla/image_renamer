@@ -24,6 +24,39 @@ This Python project reads image files (such as screenshots) from a directory, an
    python image_renamer.py /path/to/image/folder
    ```
 
+
+## How it works
+1. Place your screenshots or image files in a folder (e.g., `~/Desktop/screenshots`).
+2. Run the script on that folder:
+   ```bash
+   python image_renamer.py ~/Desktop/screenshots
+   ```
+3. The script will:
+   - Read each image file in the folder
+   - Send the image to the Gemma 12B LLM via LMStudio
+   - Receive a descriptive filename suggestion (e.g., `error_dialog_july_2025.png`)
+   - Rename the image file accordingly
+
+### Example
+Suppose your folder contains:
+
+```
+Screenshot 2025-06-30 at 10.00.00.png
+Screenshot 2025-06-30 at 10.01.00.png
+```
+
+After running the script, you might get:
+
+```
+error_dialog_july_2025.png
+settings_menu_dark_mode.png
+```
+
+### How this helps
+- **Organization:** Your screenshots and images will have meaningful, searchable filenames.
+- **Automation:** No need to manually review and rename each file.
+- **Productivity:** Quickly find images by their content, not by generic timestamps.
+
 ## Notes
 - The script assumes LMStudio exposes a local API endpoint for LLM inference.
 - Update the API endpoint in the script if needed.
