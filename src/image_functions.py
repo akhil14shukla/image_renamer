@@ -12,8 +12,8 @@ from src.prompts import (
 from src.utils import (
     get_image_files,
     image_to_bytes,
-    cosine_similarity,
     get_image_cache_key,
+    cosine_similarity,
 )
 import os
 
@@ -42,6 +42,7 @@ def get_image_description(base64_image):
     # Save the output to a cache file
     with open(cache_file, "w") as f:
         f.write(output)
+    #
     print(f"Image description saved to {cache_file}")
     return output
 
@@ -95,12 +96,23 @@ def cluster_images_by_embeddings(folder_path):
         file_path = os.path.join(folder_path, image)
         base64_images.append(image_to_bytes(file_path))
     embeddings = [get_image_embeddings(b64_image) for b64_image in base64_images]
+    from umap import UMAP
 
+    reduced = UMAP(n_components=4, n_epochs=1000, metric="cosine").fit_transform(
+        embeddings
+    )
     # Here you would implement the clustering logic using hdbscan or any other method
     import hdbscan
 
-    clusterer = hdbscan.HDBSCAN(min_cluster_size=2, metric=cosine_similarity)
-    clusterer.fit(embeddings)
+    clusterer = hdbscan.HDBSCAN(
+        min_cluster_size=3,
+        metric="euclidean",
+        allow_single_cluster=True,
+    )
+    clusterer.fit(reduced)
     labels = clusterer.labels_
     print(f"Cluster labels: {labels}")
+    for i, image in enumerate(image_files):
+        print(f"image-name: {image} , Label: {labels[i]}")
+
     return embeddings  # Placeholder for clustering logic
