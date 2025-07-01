@@ -3,8 +3,8 @@ import sys
 
 from src.system_functions import (
     rename_images_in_directory,
-    cluster_images_by_embeddings,
 )
+from src.image_functions import cluster_images_by_embeddings
 
 
 def main():
@@ -15,8 +15,8 @@ def main():
     if not os.path.isdir(directory):
         print(f"Directory '{directory}' does not exist.")
         sys.exit(1)
-    # rename_images_in_directory(directory)
-    cluster_images_by_embeddings(directory)
+    rename_images_in_directory(directory)
+    # cluster_images_by_embeddings(directory)
 
 
 if __name__ == "__main__":
